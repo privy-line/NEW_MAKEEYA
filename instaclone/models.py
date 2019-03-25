@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User  
 from tinymce.models import HTMLField
-from pyuploadcare.dj.models import ImageField
+ 
 
 
 # Create your models here.
@@ -10,12 +10,12 @@ class Image(models.Model):
     caption = models.CharField(max_length=100)     
     profile = models.ForeignKey(User,on_delete=models.CASCADE)   
     upload_date = models.DateTimeField(auto_now_add=True)
-    image = ImageField(blank=False, manual_crop='800x800')
+    image = models.ImageField(upload_to='home/')
     likes = models.BooleanField(default=False)
-    comments= models.CharField(max_length=100) 
+    # comments= models.CharField(max_length=100) 
 
     class Meta:
-        ordering = ('-post_date',)
+        ordering = ('upload_date',)
 
     def save_image(self):
         self.save()
@@ -41,7 +41,7 @@ class Image(models.Model):
 
 
 class Profile(models.Model):
-    prof_pic = ImageField(blank=True, manual_crop='800x800')
+    prof_pic = models.ImageField(upload_to='profile/',blank=True)
     bio = HTMLField()
     user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
 
