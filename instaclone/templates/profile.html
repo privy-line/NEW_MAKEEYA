@@ -3,8 +3,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ form.media }}
-<div class="container top">
+ <p>hhh</p>
+
+   
+<h2>{{profile.prof_pic }}</h2>
+<img src="{{profile_details.prof_pic.url}}" alt="profile-photo">
+    <p>Hello</p>
+
+    {%for pic in images%}
+    <img src="{{pic.image.url}}" alt="">
+
+    {%endfor%}
+
+
+<!-- <div class="container top">
     <div class="row">
         <div class="col-md-12">
             <div class="row top-section">
@@ -76,5 +88,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 {% endblock %}
