@@ -6,8 +6,10 @@ from django.conf.urls.static import static
 
 
 urlpatterns=[
-    url(r'^$',views.home,name='home'), 
-    url(r'profile',views.profile,name='profile'), 
+    url(r'^$',views.home,name='home'),  
+    url(r'^upload/$', views.upload_image, name='upload_image'),
+    url(r'^accounts/edit',views.edit_profile, name='edit_profile'),
+  
     
 ]
 if settings.DEBUG:

@@ -22,13 +22,17 @@
                 </a>
           <ul class="dropdown-menu" role="menu">
             <li>
-              <a href="{% url 'profile' %}">My Profile</a>
+              <a href="{% url 'edit_profile' %}">My Profile</a>
             </li>
             <li>
               <a href="/accounts/password/change">Change Password</a>
             </li>
             <li>
               <a href="/logout">Logout</a>
+            </li>
+
+            <li>
+              <a href="{% url 'upload_image' %}">upload an Image</a>
             </li>
           </ul>
         </li>
