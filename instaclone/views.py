@@ -15,20 +15,17 @@ def home(request):
     images = Image.get_all_images()
     return render(request, 'home.html', {'title':title,'images':images})
 
-def profile(request, username):
-    profile = User.objects.get(username=username)
-    # print(profile.id)
-    try:
-        profile_details = Profile.get_by_id(profile.id)
-    except:
-        profile_details = Profile.filter_by_id(profile.id)
-    images = Image.get_profile_images(profile.id)
-    title = f'@{profile.username} Instagram photos and videos'
-
-    return render(request, 'profile.html', {'title':title, 'profile':profile, 'profile_details':profile_details, 'images':images})
 
 
+def profile (request):
+    current_user=request.user
+    
+    # images=Image.get_profile_images(profile_id)
+    profile_details= Profile.objects.filter(id=current_user.profile.id)
+    print(current_user.profile.id)
+    
 
+    return render(request,'profile.html',{'profile':profile,'profile_details':profile_details,'images':images})
 
  
 
@@ -44,7 +41,8 @@ def upload_image(request):
             upload = form.save(commit=False)
             upload.profile = request.user            
             upload.save()
-            return redirect('profile', username=request.user)
+            return redirect('profile',username=request.user)
+    #         return redirect('profile')
     else:
         form = ImageForm()
     
@@ -59,7 +57,8 @@ def edit_profile(request):
             edit = form.save(commit=False)
             edit.user = request.user
             edit.save()
-            return redirect('edit_profile')
+            return redirect('profile')
+            print(edit)
     else:
         form = ProfileForm()
 
