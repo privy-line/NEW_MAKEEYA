@@ -10,7 +10,7 @@ class Image(models.Model):
     caption = models.CharField(max_length=100)     
     profile = models.ForeignKey(User,on_delete=models.CASCADE)   
     upload_date = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='home/')
+    image = models.ImageField(upload_to='profile')
     likes = models.BooleanField(default=False)
    
 
@@ -63,6 +63,8 @@ class Profile(models.Model):
     def filter_by_id(cls, id):
         profile = Profile.objects.filter(user = id).first()
         return profile
+
+ 
 
 
 class Comments(models.Model):

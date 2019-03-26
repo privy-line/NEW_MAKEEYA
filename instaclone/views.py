@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http  import HttpResponse,HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Image, Profile, Comments
@@ -25,19 +25,12 @@ def profile(request, username):
     images = Image.get_profile_images(profile.id)
     title = f'@{profile.username} Instagram photos and videos'
 
-    return render(request, 'profile/profile.html', {'title':title, 'profile':profile, 'profile_details':profile_details, 'images':images})
+    return render(request, 'profile.html', {'title':title, 'profile':profile, 'profile_details':profile_details, 'images':images})
 
 
 
 
-# def profile(request,profile_id):  
-#     try: 
-#             # locations = Location.objects.all()
-#             profile = Profile.objects.get(id = profile_id)
-#             images = Image.objects.filter(profile = profile.id)    
-#     except:        
-#             raise Http404()   
-#     return render(request,'profile.html',{'profile':profile,'images':images,})
+ 
 
 
 
