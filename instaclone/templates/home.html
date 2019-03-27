@@ -14,6 +14,7 @@
 
 {% block content %}
 {%for pic in images%}
+
 <div calss="container">
  
      
@@ -46,18 +47,27 @@
           <p>{{pic.caption}}</p>
           <h2 class="modal-title">{{pic.name}}</h2>
           <h6>{{pic.upload_date}}</h6>
+          <!-- {%for comment in comments%}
+          <h3>comments</h3>
+          <p>*{{ comments.comment}}</p>
+          <p>{{comments.user}}</p>  
+          {%endfor%} -->
 
 
 
           <ul class="list-inline">
               <li class="list-inline-item">  
                   <a class="facebook-share-button" class="tooltip-test" title="Share on Facebook"
-                      href=" " target="_blank">
-                      Share
+                      href="{% url 'comments' pic.id %}" >Add a Comment
+                      
                   </a>
+
+
               </li>
           </ul>
         </div>
+        {{pic.image_comments}}
+        <p></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -68,7 +78,7 @@
   </div>
 </div>
 </div>
-
+ 
 
 {%endfor%}
 

@@ -9,7 +9,8 @@ urlpatterns=[
     url(r'^$',views.home,name='home'),  
     url(r'^upload/$', views.upload_image, name='upload_image'),
     url(r'^accounts/edit',views.edit_profile, name='edit_profile'),
-    url(r'^profile', views.profile, name='profile'),  
+    url(r'^profile', views.profile, name='profile'), 
+    url(r'^comments/(\d+)',views.comments,name="comments")
     
 ]
 

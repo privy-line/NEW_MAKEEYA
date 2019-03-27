@@ -69,11 +69,16 @@ class Profile(models.Model):
 
 
 class Comments(models.Model):
-    comment = HTMLField()
-    posted_on = models.DateTimeField(auto_now=True)
+    profile=models.ForeignKey(Profile,null=True)
+    comment = HTMLField()     
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
+    def __str__(self):
+        return self.user_name
+
+        
     def save_comment(self):
         self.save()
     

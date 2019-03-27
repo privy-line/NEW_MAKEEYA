@@ -13,7 +13,6 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exclude = ['user']
 
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comments
-        exclude = ['image', 'user']
+class CommentsForm(forms.Form):     
+       comment=forms.CharField(label='Comment',max_length=100)
+       
