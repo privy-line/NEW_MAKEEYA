@@ -40,6 +40,9 @@ JavaScript
 Heroku for the deployment
 Postgresql for the database
 
+# Notes
+
+This application is still under development. this  means that not all features are working. Features like search, likes are to be added later.
 # contact details
 
 If you wish to give any contribution to my project, or anything else, I can be reached on Github https://github.com/Pnshimiye, or on Facebook:https://www.facebook.com/pauline.nshimiye
@@ -47,5 +50,7 @@ If you wish to give any contribution to my project, or anything else, I can be r
 # Licence
 
 This project is licensed under the MIT License.
+
+
 
 Copyright @ 2019
