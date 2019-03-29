@@ -12,43 +12,45 @@
       <a class="navbar-brand" href="{% url 'home' %}" style="font-family: monospace;font-size:25px;font-weight: 40000;color: white; padding-top:23px;">Home</a>
    
     </div>
-  </div>
-    <div class="col-sm-6 col-md-6" id ="button"style= "height:30px">
-      {% if user.is_authenticated %}
-      <ul>
-        <li class="dropdown" >
-          <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="true">Account
-                    <span class="caret"></span>
-                </a>
-          <ul class="dropdown-menu" role="menu">
-            <li>
-              <a href="{% url 'edit_profile' %}">Edit/create Profile</a>
-            </li>
-            <li>
-                <a href="{% url 'profile' %}">View My Profile</a>
+
+    <div class="col-sm-6 col-md-6" id ="button"style="padding:4px" >
+        {% if user.is_authenticated %}
+        <ul style= "height:50px; padding:10px" >
+          <li class="dropdown"style= "height:50px padding:10px" >
+            <a  style= "height:50px; font-size:20px;"href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="true">Account
+                      <span class="caret"></span>
+                  </a>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="{% url 'edit_profile' %}">Edit/create Profile</a>
               </li>
-            <li>
-              <a href="/accounts/password/change">Change Password</a>
-            </li>
-            <li>
-              <a href="/logout">Logout</a>
-            </li>
-
-            <li>
-              <a href="{% url 'upload_image' %}">upload an Image</a>
-            </li>
-          </ul>
+              <li>
+                  <a href="{% url 'profile' %}">View My Profile</a>
+                </li>
+              <li>
+                <a href="/accounts/password/change">Change Password</a>
+              </li>
+              <li>
+                <a href="/logout">Logout</a>
+              </li>
+  
+              <li>
+                <a href="{% url 'upload_image' %}">upload an Image</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+  
+                 <h2>{{profile_details.user.username }}</h2>
+        {% else %}
+        <li>
+          <a class='btn btn-default' href="/accounts/login">Login</a>
         </li>
-      </ul>
-
-               <h2>{{profile_details.user.username }}</h2>
-      {% else %}
-      <li>
-        <a class='btn btn-default' href="/accounts/login">Login</a>
-      </li>
-
-      {% endif %}
-    </div>
+  
+        {% endif %}
+      </div>
+      
+  </div>
     
  
   
