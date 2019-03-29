@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{%load static%}
+{% load bootstrap3 %}
 <!Doctype <!DOCTYPE html>
 <html>
 <head>
@@ -6,31 +8,48 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Instaclone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-  <script src="main.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="static/css/styles.css" />
+ 
+  <style>
+    .boxes{
+  box-shadow:0 3px 7px 0 rgba(165, 70, 70, 0.2);
+  transition:0.3s;
+    }
+  </style>
 </head>
+{% block styles %}
+ {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"> 
+  {% endblock %}
+ 
 <body>
 <div class= "body"> 
 
 {% block content %}
+
+ 
+
+  
 {%for pic in images%}
 
 <div calss="container">
  
      
       <center>
-        <div class="row" id="pictures"> 
+        <div class="row" id="pictures"style="width:700px;"> 
          
-          <div class="col-sm-12">
+        
     
-    
-            
+            <div class="boxes">
+            <div class="panel panel-heading ">
             <a href="" data-toggle= "modal" data-target="#{{pic.id}}"><img src="{{pic.image.url}}" class="img-responsive" alt="Image" height="700px" width="700px"></a> 
             <h3>{{pic.caption}}</h3>
             <h6>{{pic.upload_date}}</h6>
-          </div>    
+          </div>
+          </div>
+        </div>    
      
-      </div> 
+
  
   </div>
 </center>
