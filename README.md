@@ -28,7 +28,7 @@ bootsrap 3
 
 # Get This Repo
 
- Run the following command on the terminal: git clone https://github.com/Nicoleha/gallery.git
+ Run the following command on the terminal: git clone https://github.com/Pnshimiye/gallery.git
  type cd gallery on terminal
 
  # Technologies used
