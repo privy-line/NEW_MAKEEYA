@@ -4,17 +4,30 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .nav-link{color:#ffffff;}
+    .navbar-brand{color:darkorange;}
+  </style>
 </head>
 <body>
-<nav class="navbar navbar-inverse"style="height:80px">
-  <div class="container-fluid">
-    <div class="navbar-header">
-        {% if user.is_authenticated %}
-      <a class="navbar-brand" href="{% url 'home' %}" style="font-family: monospace;font-size:25px;font-weight: 40000;color: white; padding-top:23px;">Home</a>&nbsp;<br>
+<nav class="navbar navbar-expand-sm navbar" style="height:80px;background-color: darkblue;color: #ffffff;">
+  <div >
+     
+    {% if user.is_authenticated %}
+        <a class="navbar-brand" href="{% url 'home' %}" style="font-family: monospace;font-size:25px;font-weight: 40000; padding-top:23px;">MAKEEYA</a> 
       <h4 style= "color:white">{{profile_details.user.username }}</h4>
-      
-    </div>
+    
+      <h6>{{profile_details.user.username }}</h6>
+      <li>
+        <a  style="color:white;"href="{% url 'profile' %}">View My Profile</a>
+       
 
+      </li>
+      <li>
+        <a  style="color:white;"href="/logout">Logout</a>
+      </li>
+   
+<!-- 
     <div class="col-sm-6 col-md-6" id ="button"style="padding:4px" >
         
         <ul style= "height:50px; padding:10px" >
@@ -37,19 +50,29 @@
               </li>
   
               <li>
-                <a  style="color:white;"href="{% url 'upload_image' %}">upload an Image</a>
+                <a  style="color:white;"href="{% url 'create_item' %}">upload an Image</a>
               </li>
             </ul>
           </li>
         </ul>
-  
+   -->
                  
         {% else %}
-        <li>
-          <a class='btn btn-default' href="/accounts/login">Login</a>
-        </li>
+    
+          <a class='btn btn-default' href="/accounts/login">Login As a Trader</a>
+          <a class='btn btn-default' href ="{% url 'buyer_login' %}">Login As a Buyer</a>
+          
+          <a class="navbar-brand" href="{% url 'home' %}" style="font-family: monospace;font-size:25px;font-weight: 40000;color: white; padding-top:23px;">MAKEEYA</a>&nbsp;<br>
+    
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/category/1/">FOOD ITEMS</a>
+           <a class="dropdown-item" href="/category/2/">COSMETICS</a>
+            <a class="dropdown-item" href="/category/3/">OTHERS</a>
+        </div>
+    
   
         {% endif %}
+    
       </div>
       
   </div>

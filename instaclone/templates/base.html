@@ -4,17 +4,11 @@
 <html>
 <head>
   <meta charset="utf-8">
-
-
-    <title>A Clone of Instagram</title>
-
- 
+  <title>A Clone of Instagram</title>
   {% block styles %}
   {% bootstrap_css %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   {% endblock %}
-
-
 </head>
 <body>
     {% include "navbar.html" %}
@@ -25,5 +19,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
     {% endblock %}
+    {% include "footer.html" %}
 </body>
 </html>

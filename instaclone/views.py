@@ -1,37 +1,62 @@
-from django.shortcuts import render,redirect
-from django.http  import HttpResponse,HttpResponse
+from .forms import CartAddProductForm
+from django.shortcuts import render,redirect,get_object_or_404
+from django.http  import HttpResponse,HttpResponseRedirect,HttpRequest
 from django.contrib.auth.decorators import login_required
-from .models import Image, Profile, Comments
+from .models import Item, Profile,Request,Buyer,Cart
 from django.contrib.auth.models import User
-from .forms import ImageForm, ProfileForm, CommentsForm
+from .forms import ImageForm, ProfileForm, BuyerLoginForm,RequestForm,BuyerForm
+from .email import send_notification_email
+from django.contrib import messages
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.http import require_POST
+
+# from django.template import Context
+
+
  
-# Create your views here.
  
  
  
-@login_required(login_url='/accounts/login/')
+
 def home(request): 
     title = 'Home' 
-    images = Image.get_all_images()
-    return render(request, 'home.html', {'title':title,'images':images})
+    # category = None
+    # categories = Category.objects.all()
+    # item = Item.objects.get(id)
+    items = Item.get_all_items()
+    # if category_slug:
+    #     category = get_object_or_404(Category, slug=category_slug)
+    #     products = Product.objects.filter(category=category)
+
+    # context = {
+    #     'category': category,
+    #     'categories': categories,
+    #     'item': item
+    # }
+    return render(request, 'home.html', {'title':title,'items':items})
 
 
-
-def profile (request):
-    current_user=request.user
+def detail(request, id):
+    item = Item.objects.filter(id=id)
+    cart_product_form = CartAddProductForm()
     
-    # images=Image.get_profile_images(profile_id)
-    profile_details=  Profile.objects.get(user=current_user.id)    
-    print(profile_details.prof_pic)
-    images=Image.get_profile_images(profile_details.user_id)
+    return render(request, 'detail.html',{"item": item,"cart_product_form": cart_product_form})
 
-    return render(request,'profile.html',{'profile':profile,'profile_details':profile_details,'images':images})
 
- 
+@login_required(login_url='/accounts/login/')
+def profile (request):
+    current_user=request.user 
+     
+    profile_details =  Profile.objects.get(user=current_user.id)    
+    print(profile_details.business_logo)
+    items=Item.get_profile_items(profile_details.user_id)
+
+    return render(request,'profile.html',{'profile':profile,'profile_details':profile_details,'items':items})
 
 
 @login_required(login_url='/accounts/login')
-def upload_image(request):
+def create_item(request):
     current_user=request.user
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
@@ -40,7 +65,6 @@ def upload_image(request):
             upload.profile = current_user           
             upload.save()
             return redirect('profile')
-    #         return redirect('profile')
     else:
         form = ImageForm()
     
@@ -59,9 +83,9 @@ def edit_profile(request):
             print(edit)
     else:
         form = ProfileForm()
-
     return render(request,'edit_profile.html', {'form':form})
-
+   
+ 
 
 def comments(request,id):
         current_user = request.user
@@ -92,3 +116,68 @@ def view_comments(request):
     return render(request,'home.html',{'image_comments':image_comments, 'post':post,'user':current_user})
 
  
+def buyer_login(request):
+    form = BuyerLoginForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            buyer=Buyer.objects.filter(email = form.cleaned_data['email']).first()
+            if buyer.password==form.cleaned_data['password']:
+                return redirect('home')
+    return render(request,'buyer_login.html',{"form":form})
+
+def buyer_registration(request):
+   current_user = request.user
+   if request.method == 'POST':
+        form = BuyerForm(request.POST, request.FILES)
+        if form.is_valid():
+            buyer = form.save(commit=False)
+            buyer.user = current_user
+            buyer.save()
+        return redirect('buyer_login')
+   else:
+        form = BuyerForm()
+   return render(request, 'buyer_registration.html', {"form": form})
+
+
+def post_request(request):    
+    if request.method == 'POST':
+        form = RequestForm(request.POST, request.FILES)
+        if  form.is_valid():
+            request = form.save(commit=False)
+            request.save()
+            name = request.business_name
+            email = request.business_email
+            send_notification_email(name, email)           
+            HttpResponseRedirect('home')
+            return redirect('home')
+  
+    else:
+        
+        form =RequestForm()
+ 
+    return render(request, 'request_form.html',{'form':form})
+
+
+@require_POST
+def cart_add(request, item_id):
+    cart = Cart(request)  # create a new cart object passing it the request object 
+    item = get_object_or_404(Item, id=item_id) 
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(item=item, quantity=cd['quantity'], update_quantity=cd['update'])
+    return redirect('home')
+
+
+def cart_remove(request, item_id):
+    cart = Cart(request)
+    item = get_object_or_404(Item, id=item_id)
+    cart.remove(item)
+    return redirect('cart_detail',item_id)
+
+
+def cart_detail(request):
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})
+    return render(request, 'cart_detail.html', {'cart': cart})

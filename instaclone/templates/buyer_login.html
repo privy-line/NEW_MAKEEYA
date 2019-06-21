@@ -1,0 +1,45 @@
+{% extends "registration/base.html"%}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block styles %}
+      {% bootstrap_css %}
+      <link rel="stylesheet" href="{% static 'css/get.css' %}"> 
+      <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
+    {% endblock %} 
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          {% if form.errors %}
+            <p> Password or Username is incorrect </p>
+          {% endif %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="text-center">Sign In</h3>
+            </div>
+            <div class="panel-body">
+              <form  action="{% url 'buyer_login' %}" method="POST" autocomplete="off" validator="disabled">
+                {% csrf_token %}
+                {% bootstrap_form form%}
+                <div class="form-group">
+                  <input type="submit" class="btn btn-primary btn-sm" value="Login">
+                </div>
+                <input type="hidden" name="next" value="{{next}}">
+                <p>Have no Account yet?</p><button><a href = "{% url 'buyer_registration' %}">Register</a></button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}
